@@ -1,0 +1,6 @@
+@WastageUploadService_HostAddress = http://localhost:5151
+
+GET {{WastageUploadService_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
