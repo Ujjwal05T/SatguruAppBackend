@@ -59,6 +59,32 @@ public class WastageController : ControllerBase
     }
 
     /// <summary>
+    /// Get wastage by ID
+    /// </summary>
+    [HttpGet("{id:int}")]
+    [ProducesResponseType(typeof(WastageResponseDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<WastageResponseDto>> GetWastageById(int id)
+    {
+        try
+        {
+            var wastage = await _wastageService.GetWastageByIdAsync(id);
+
+            if (wastage == null)
+            {
+                return NotFound(new { message = $"Wastage with ID {id} not found" });
+            }
+
+            return Ok(wastage);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"Error getting wastage by ID: {id}");
+            return StatusCode(500, new { message = "An error occurred while retrieving wastage", error = ex.Message });
+        }
+    }
+
+    /// <summary>
     /// Get wastage by inward challan ID
     /// </summary>
     [HttpGet("by-challan/{inwardChallanId}")]

@@ -7,6 +7,7 @@ namespace WastageUploadService.Services;
 public interface IWastageService
 {
     Task<WastageResponseDto> CreateOrUpdateWastageAsync(CreateWastageDto dto);
+    Task<WastageResponseDto?> GetWastageByIdAsync(int id);
     Task<WastageResponseDto?> GetWastageByChallanIdAsync(string inwardChallanId);
     Task<List<WastageResponseDto>> GetAllWastagesAsync();
     Task<bool> DeleteWastageAsync(int id);
@@ -115,6 +116,31 @@ public class WastageService : IWastageService
             _logger.LogError(ex, $"Error creating/updating wastage for challan: {dto.InwardChallanId}");
             throw;
         }
+    }
+
+    public async Task<WastageResponseDto?> GetWastageByIdAsync(int id)
+    {
+        var wastage = await _context.Wastages
+            .FirstOrDefaultAsync(w => w.Id == id);
+
+        if (wastage == null)
+            return null;
+
+        return new WastageResponseDto
+        {
+            Id = wastage.Id,
+            InwardChallanId = wastage.InwardChallanId,
+            PartyName = wastage.PartyName,
+            VehicleNo = wastage.VehicleNo,
+            SlipNo = wastage.SlipNo,
+            Date = wastage.Date,
+            NetWeight = wastage.NetWeight,
+            MouReport = wastage.MouReport,
+            ImageUrls = wastage.ImageUrls,
+            CreatedAt = wastage.CreatedAt,
+            UpdatedAt = wastage.UpdatedAt,
+            IsUpdate = false
+        };
     }
 
     public async Task<WastageResponseDto?> GetWastageByChallanIdAsync(string inwardChallanId)
