@@ -16,14 +16,8 @@ public class CreateWastageDto
     [StringLength(50)]
     public string VehicleNo { get; set; } = string.Empty;
 
-    [StringLength(50)]
-    public string? SlipNo { get; set; }
-
     [Required]
     public DateTime Date { get; set; }
-
-    [Required]
-    public decimal NetWeight { get; set; }
 
     public List<decimal>? MouReport { get; set; } = new List<decimal>();
 
@@ -37,9 +31,7 @@ public class WastageResponseDto
     public string InwardChallanId { get; set; } = string.Empty;
     public string PartyName { get; set; } = string.Empty;
     public string VehicleNo { get; set; } = string.Empty;
-    public string? SlipNo { get; set; }
     public DateTime Date { get; set; }
-    public decimal NetWeight { get; set; }
     public List<decimal> MouReport { get; set; } = new List<decimal>();
     public List<string> ImageUrls { get; set; } = new List<string>();
     public DateTime CreatedAt { get; set; }

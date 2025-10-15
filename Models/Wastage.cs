@@ -20,15 +20,8 @@ public class Wastage
     [StringLength(50)]
     public string VehicleNo { get; set; } = string.Empty;
 
-    [StringLength(50)]
-    public string? SlipNo { get; set; }
-
     [Required]
     public DateTime Date { get; set; }
-
-    [Required]
-    [Column(TypeName = "decimal(18,2)")]
-    public decimal NetWeight { get; set; }
 
     // Store MOU report as JSON array
     [Required]

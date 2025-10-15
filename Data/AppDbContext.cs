@@ -34,13 +34,6 @@ public class AppDbContext : DbContext
                 .IsRequired()
                 .HasMaxLength(50);
 
-            entity.Property(e => e.SlipNo)
-                .HasMaxLength(50);
-
-            entity.Property(e => e.NetWeight)
-                .HasColumnType("decimal(18,2)")
-                .IsRequired();
-
             entity.Property(e => e.Date)
                 .IsRequired();
 

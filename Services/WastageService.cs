@@ -37,7 +37,6 @@ public class WastageService : IWastageService
             bool isUpdate = existingWastage != null;
 
             Wastage wastage;
-            List<string> imageUrls;
 
             if (isUpdate)
             {
@@ -58,9 +57,7 @@ public class WastageService : IWastageService
                 // Update properties
                 wastage.PartyName = dto.PartyName;
                 wastage.VehicleNo = dto.VehicleNo;
-                wastage.SlipNo = dto.SlipNo;
                 wastage.Date = dto.Date;
-                wastage.NetWeight = dto.NetWeight;
                 wastage.MouReport = dto.MouReport ?? new List<decimal>();
                 wastage.UpdatedAt = DateTime.UtcNow;
 
@@ -74,9 +71,7 @@ public class WastageService : IWastageService
                     InwardChallanId = dto.InwardChallanId,
                     PartyName = dto.PartyName,
                     VehicleNo = dto.VehicleNo,
-                    SlipNo = dto.SlipNo,
                     Date = dto.Date,
-                    NetWeight = dto.NetWeight,
                     MouReport = dto.MouReport ?? new List<decimal>(),
                     CreatedAt = DateTime.UtcNow
                 };
@@ -101,9 +96,7 @@ public class WastageService : IWastageService
                 InwardChallanId = wastage.InwardChallanId,
                 PartyName = wastage.PartyName,
                 VehicleNo = wastage.VehicleNo,
-                SlipNo = wastage.SlipNo,
                 Date = wastage.Date,
-                NetWeight = wastage.NetWeight,
                 MouReport = wastage.MouReport,
                 ImageUrls = wastage.ImageUrls,
                 CreatedAt = wastage.CreatedAt,
@@ -132,9 +125,7 @@ public class WastageService : IWastageService
             InwardChallanId = wastage.InwardChallanId,
             PartyName = wastage.PartyName,
             VehicleNo = wastage.VehicleNo,
-            SlipNo = wastage.SlipNo,
             Date = wastage.Date,
-            NetWeight = wastage.NetWeight,
             MouReport = wastage.MouReport,
             ImageUrls = wastage.ImageUrls,
             CreatedAt = wastage.CreatedAt,
@@ -157,9 +148,7 @@ public class WastageService : IWastageService
             InwardChallanId = wastage.InwardChallanId,
             PartyName = wastage.PartyName,
             VehicleNo = wastage.VehicleNo,
-            SlipNo = wastage.SlipNo,
             Date = wastage.Date,
-            NetWeight = wastage.NetWeight,
             MouReport = wastage.MouReport,
             ImageUrls = wastage.ImageUrls,
             CreatedAt = wastage.CreatedAt,
@@ -179,9 +168,7 @@ public class WastageService : IWastageService
             InwardChallanId = w.InwardChallanId,
             PartyName = w.PartyName,
             VehicleNo = w.VehicleNo,
-            SlipNo = w.SlipNo,
             Date = w.Date,
-            NetWeight = w.NetWeight,
             MouReport = w.MouReport,
             ImageUrls = w.ImageUrls,
             CreatedAt = w.CreatedAt,
