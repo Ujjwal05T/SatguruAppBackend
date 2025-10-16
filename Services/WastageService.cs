@@ -18,12 +18,14 @@ public class WastageService : IWastageService
     private readonly AppDbContext _context;
     private readonly IFileService _fileService;
     private readonly ILogger<WastageService> _logger;
+    private readonly IInwardChallanService _inwardChallanService;
 
-    public WastageService(AppDbContext context, IFileService fileService, ILogger<WastageService> logger)
+    public WastageService(AppDbContext context, IFileService fileService, ILogger<WastageService> logger, IInwardChallanService inwardChallanService)
     {
         _context = context;
         _fileService = fileService;
         _logger = logger;
+        _inwardChallanService = inwardChallanService;
     }
 
     public async Task<WastageResponseDto> CreateOrUpdateWastageAsync(CreateWastageDto dto)
@@ -88,7 +90,35 @@ public class WastageService : IWastageService
 
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation($"Wastage {(isUpdate ? "updated" : "created")} for challan: {dto.InwardChallanId}");
+            // Calculate MOU average and update inward challan if MOU reports exist
+            decimal? mouAverage = null;
+            if (wastage.MouReport != null && wastage.MouReport.Any())
+            {
+                mouAverage = wastage.MouReport.Average();
+                _logger.LogInformation($"Calculated MOU average for challan {dto.InwardChallanId}: {mouAverage}");
+
+                // Call Python backend to update inward challan
+                try
+                {
+                    var updateSuccess = await _inwardChallanService.UpdateMouReportAsync(dto.InwardChallanId, mouAverage.Value);
+                    if (updateSuccess)
+                    {
+                        _logger.LogInformation($"Successfully updated inward challan MOU report for {dto.InwardChallanId}");
+                    }
+                    else
+                    {
+                        _logger.LogWarning($"Failed to update inward challan MOU report for {dto.InwardChallanId}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, $"Error calling inward challan service for {dto.InwardChallanId}");
+                    // Don't fail the wastage operation if inward challan update fails
+                }
+            }
+
+            _logger.LogInformation($"Wastage {(isUpdate ? "updated" : "created")} for challan: {dto.InwardChallanId}" +
+                (mouAverage.HasValue ? $" with MOU average: {mouAverage}" : ""));
 
             return new WastageResponseDto
             {
@@ -101,7 +131,8 @@ public class WastageService : IWastageService
                 ImageUrls = wastage.ImageUrls,
                 CreatedAt = wastage.CreatedAt,
                 UpdatedAt = wastage.UpdatedAt,
-                IsUpdate = isUpdate
+                IsUpdate = isUpdate,
+                MouAverage = mouAverage // Add MOU average to response
             };
         }
         catch (Exception ex)

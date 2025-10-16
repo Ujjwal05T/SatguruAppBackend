@@ -19,6 +19,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Add custom services
 builder.Services.AddScoped<IWastageService, WastageService>();
 builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddHttpClient<IInwardChallanService, InwardChallanService>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {

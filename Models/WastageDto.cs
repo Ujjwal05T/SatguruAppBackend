@@ -33,6 +33,7 @@ public class WastageResponseDto
     public string VehicleNo { get; set; } = string.Empty;
     public DateTime Date { get; set; }
     public List<decimal> MouReport { get; set; } = new List<decimal>();
+    public decimal? MouAverage { get; set; } // Average of MOU reports calculated by the service
     public List<string> ImageUrls { get; set; } = new List<string>();
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
