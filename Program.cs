@@ -37,7 +37,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:3000", "http://localhost:3001") // Add your frontend URLs
+        policy.WithOrigins("http://localhost:3000", "https://satguru-reels.vercel.app") // Add your frontend URLs
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
